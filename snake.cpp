@@ -448,11 +448,12 @@ void setting()
 			cout<<"允许调整速度(1/0)：\n";adj_speed=getch()-'0';
 			cout<<"允许手动移动(1/0)：\n";full_time=!(getch()-'0');
 			system("cls");
-			system("mode con cols=100 lines=45");//改变宽高
+//			system("mode con cols=100 lines=45");//改变宽高
 			gotoxy0(size+2,6);cout<<"【6】自定义模式"; 
 			break;
 		}
 	}
+	system("mode con cols=130 lines=53");//改变宽高
 }
 
 void init()
