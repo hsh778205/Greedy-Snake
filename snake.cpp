@@ -26,10 +26,10 @@ void getxy();
 const int A=10,B=11,C=12,D=13,E=14,F=15;
 void SetColor(unsigned short,unsigned short);
 void SetColor(unsigned short=0x07);
-unsigned long long step;
-int speed,size,lenth,way,tme,score,init_size,start_time,clr=1,have_eaten;
+long long step,score;
+int speed,size,lenth,way,tme,init_size,start_time,clr=1,have_eaten;
 int big_apple_probability,big_apple_save_time=10000,big_apple_time,mode;
-int his[10];
+long long his_score[10],his_step[10];
 bool through_wall,wall_protection,self_protection,full_time,adj_speed;
 bool have_big_apple;
 int delta[4][2]={
@@ -180,6 +180,9 @@ int main()
 		if(judge()==1) break;
 		if(judge()==2){
 			if(mode==1) score--;
+			gotoxy0(2,size+2);
+			cout<<"蛇蛇撞墙了！扣分ing";
+			cout<<"\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b                   ";
 			gotoxy0(size+2,2);
 			cout<<"得分：            \b\b\b\b\b\b\b\b\b\b\b\b"<<score;
 			snake.pop_front();
@@ -272,19 +275,26 @@ int main()
 		cout<<"\n"; 
 	}
 	cout<<"\n\n\n\n\n";
+	cin.get();
+	main();
 	return 0;
 }
 
 void save()
 {
-	his[mode]=max(his[mode],score);
+	if(his_score[mode]<score)
+	{
+		his_score[mode]=score;
+		his_step[mode]=step;
+	}
 	ofstream fout("history.txt",ios::out);
-	for(int i=0;i<10;i++) fout<<his[i]<<endl;
+	for(int i=0;i<10;i++) fout<<his_score[i]<<" "<<his_step[i]<<endl;
 }
 
 void setting()
 {
-	memset(his,sizeof(his),0x3f);
+	memset(his_step,sizeof(his_score),0);
+	memset(his_step,sizeof(his_step),0);
 	step=0;
 	if(system("@echo off\ndir /a history.txt")==1){
 		save();
@@ -294,7 +304,7 @@ void setting()
 		save();
 	}
 	else{
-		for(int i=0;i<10;i++) fin>>his[i];
+		for(int i=0;i<10;i++) fin>>his_score[i]>>his_step[i];
 	}
 	
 	SetColor();
@@ -631,7 +641,7 @@ int judge()
 	
 	if(line.find(snake.front())!=line.end()&&self_protection){
 		if(mode==1){
-			score-=max(5,score/10); 
+			score-=max((long long)5,score/10); 
 		} 
 		return 0;
 	}
@@ -660,7 +670,7 @@ void show()
 	gotoxy0(size+2,0);
 	cout<<"已经吃了"<<have_eaten<<"个"; 
 	gotoxy0(size+2,2);
-	cout<<"得分：            \b\b\b\b\b\b\b\b\b\b\b\b"<<score;
+	cout<<"得分：                    \b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b"<<score;
 	gotoxy0(size+2,3);
 	cout<<"方向:     \b\b\b\b\b";
 	if(way==0) cout<<"left";
@@ -675,7 +685,7 @@ void show()
 int calc()
 {
 	xy h=snake.front();
-	if(snake.size()/size<((unsigned int)size>>1))
+	if(snake.size()/size<(size*0.5))
 	{
 		 
 		if(h.x<apple.x/*go_front*/&&h.y==size-1&&(snake.back().x<h.x||snake.size()<(unsigned int)size-1||snake.back().x>apple.x))
