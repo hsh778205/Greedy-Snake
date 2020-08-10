@@ -1,0 +1,4 @@
+﻿  Greedy-Snake.cpp
+D:\Github\Greedy-Snake\Greedy-Snake.cpp(72,12): warning C4244: “参数”: 从“time_t”转换到“unsigned int”，可能丢失数据
+D:\Github\Greedy-Snake\Greedy-Snake.cpp(237,70): warning C4244: “+=”: 从“double”转换到“__int64”，可能丢失数据
+  Greedy-Snake.vcxproj -> D:\Github\Greedy-Snake\Debug\Greedy-Snake.exe
