@@ -1,2 +1,1 @@
 D:\Github\Greedy-Snake\Debug\Greedy-Snake.exe
-D:\Github\Greedy-Snake\Debug\Greedy-Snake.pdb
